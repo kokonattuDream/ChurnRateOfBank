@@ -36,5 +36,23 @@ X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
 
+#
+# ANN
+#
 
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
 
+classifier = Sequential()
+
+#Input layer and first hidden layer
+classifier.add(Dense(output_dim = 6, init = 'uniform', activation ='relu', input_dim = 11))
+
+#second hidden layer
+classifier.add(Dense(output_dim = 6, init = 'uniform', activation ='relu'))
+
+#Output layer
+classifier.add(Dense(output_dim = 1, init = 'uniform', activation ='sigmoid'))
+
+classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'] )
