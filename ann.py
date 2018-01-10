@@ -87,7 +87,7 @@ new_pred = classifier.predict(sc.transform( np.array([[0,0,600,1, 40, 3, 60000, 
 new_pred = (new_pred > 0.5)
 
 
-
+##Evaluate the ANN
 from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import cross_val_score
 
@@ -101,4 +101,7 @@ def build_classifier():
     return classifier
 
 classifier = KerasClassifier(build_fn = build_classifier, batch_size = 10, nb_epoch = 100)
-accuracies = cross_val_score(estimator = classifier, )
+accuracies = cross_val_score(estimator = classifier, X = X_train, y = y_train, cv = 10, n_jobs = -1)
+
+mean = accuracies.mean()
+variance = accuracies.std()
