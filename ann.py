@@ -63,6 +63,42 @@ classifier.fit(X_train, y_train, batch_size =10, nb_epoch = 100)
 y_pred = classifier.predict(X_test)
 y_pred = (y_pred > 0.5)
 
+
 from sklearn.metrics import confusion_matrix
 
 cm = confusion_matrix(y_test, y_pred)
+
+
+"""""
+Case Study
+
+Country: France
+Credit Score: 600
+Gender: Male
+Age: 40
+Tenure: 3
+Balance: 60000
+Number of Products: 2
+Has Credit Card: Yes
+Is Active Member: Yes
+Estimated Salary: 50000
+"""
+new_pred = classifier.predict(sc.transform( np.array([[0,0,600,1, 40, 3, 60000, 2, 1, 1, 50000]] )))
+new_pred = (new_pred > 0.5)
+
+
+
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import cross_val_score
+
+def build_classifier():
+    classifier = Sequential()
+    classifier.add(Dense(activation="relu", input_dim=11, units=6, kernel_initializer="uniform"))
+    classifier.add(Dense(activation="relu", units=6, kernel_initializer="uniform"))
+    classifier.add(Dense(activation="sigmoid", units=1, kernel_initializer="uniform"))
+    classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'] )
+    
+    return classifier
+
+classifier = KerasClassifier(build_fn = build_classifier, batch_size = 10, nb_epoch = 100)
+accuracies = cross_val_score(estimator = classifier, )
