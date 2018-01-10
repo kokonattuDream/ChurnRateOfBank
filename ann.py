@@ -47,12 +47,22 @@ from keras.layers import Dense
 classifier = Sequential()
 
 #Input layer and first hidden layer
-classifier.add(Dense(output_dim = 6, init = 'uniform', activation ='relu', input_dim = 11))
+classifier.add(Dense(activation="relu", input_dim=11, units=6, kernel_initializer="uniform"))
 
 #second hidden layer
-classifier.add(Dense(output_dim = 6, init = 'uniform', activation ='relu'))
+classifier.add(Dense(activation="relu", units=6, kernel_initializer="uniform"))
 
 #Output layer
-classifier.add(Dense(output_dim = 1, init = 'uniform', activation ='sigmoid'))
+classifier.add(Dense(activation="sigmoid", units=1, kernel_initializer="uniform"))
 
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'] )
+
+classifier.fit(X_train, y_train, batch_size =10, nb_epoch = 100)
+
+#Predict the test and result
+y_pred = classifier.predict(X_test)
+y_pred = (y_pred > 0.5)
+
+from sklearn.metrics import confusion_matrix
+
+cm = confusion_matrix(y_test, y_pred)
